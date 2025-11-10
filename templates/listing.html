@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ l.title }}</h2>
+  <div class="muted">{{ l.category }} · {{ l.location }} · by <a href="{{ url_for('view_user', username=l.owner.username) }}">{{ l.owner.username }}</a></div>
+  <p>{{ l.description }}</p>
+  <p><strong>Price:</strong> {{ l.price or 'Negotiable' }} · <strong>Quantity:</strong> {{ l.quantity or 'N/A' }}</p>
+  <p><a href="{{ url_for('new_message') }}" class="btn">Contact Owner</a></p>
+{% endblock %}
