@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ u.profile.full_name or u.username }}</h2>
+  <div class="muted">{{ u.role }} · {{ u.profile.location or 'Location N/A' }}</div>
+  <p>{{ u.profile.bio or 'No bio yet.' }}</p>
+
+  <h3>Listings by {{ u.username }}</h3>
+  {% for l in u.listings %}
+    <div class="card"><a href="{{ url_for('view_listing', listing_id=l.id) }}">{{ l.title }}</a> · {{ l.category }}</div>
+  {% else %}
+    <p>No listings.</p>
+  {% endfor %}
+{% endblock %}
