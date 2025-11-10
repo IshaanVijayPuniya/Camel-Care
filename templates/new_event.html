@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Create Event</h2>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <div>{{ form.title.label }}<br/>{{ form.title() }}</div>
+    <div>{{ form.description.label }}<br/>{{ form.description() }}</div>
+    <div>{{ form.date.label }}<br/>{{ form.date() }}</div>
+    <button type="submit">Create Event</button>
+  </form>
+{% endblock %}
