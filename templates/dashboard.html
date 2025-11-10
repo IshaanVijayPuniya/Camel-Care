@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Dashboard</h2>
+  <p><a class="btn" href="{{ url_for('new_listing') }}">New Listing</a> <a class="btn" href="{{ url_for('new_message') }}">New Message</a> <a class="btn" href="{{ url_for('new_event') }}">New Event</a></p>
+
+  <h3>Your Listings</h3>
+  {% for l in my_listings %}
+    <div class="card"><a href="{{ url_for('view_listing', listing_id=l.id) }}">{{ l.title }}</a> · {{ l.category }} · {{ l.location }}</div>
+  {% else %}
+    <p>No listings yet.</p>
+  {% endfor %}
+
+  <h3>Inbox</h3>
+  {% for m in inbox %}
+    <div class="card">
+      <strong>{{ m.subject }}</strong> from <a href="{{ url_for('view_user', username=m.sender.username) }}">{{ m.sender.username }}</a>
+      <div class="muted">{{ m.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+      <p>{{ m.body[:300] }}</p>
+    </div>
+  {% else %}
+    <p>No messages.</p>
+  {% endfor %}
+
+  <h3>Your Events</h3>
+  {% for e in organized %}
+    <div class="card">{{ e.title }} · {{ e.date.strftime('%Y-%m-%d') if e.date else 'N/A' }}</div>
+  {% else %}
+    <p>No events organized.</p>
+  {% endfor %}
+{% endblock %}
