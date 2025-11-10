@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Camel Care</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; max-width: 900px; margin: 20px auto; }
+    header { display:flex; justify-content:space-between; align-items:center; }
+    nav a { margin-right: 10px; }
+    .card { border:1px solid #ddd; padding:12px; border-radius:6px; margin-bottom:10px; }
+    .muted { color:#666; font-size:0.9em; }
+    .btn { padding:6px 10px; border-radius:5px; text-decoration:none; background:#4285F4; color:#fff; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1><a href="{{ url_for('index') }}">Camel Care</a></h1>
+      <div class="muted">Connecting camel stakeholders for conservation & utility</div>
+    </div>
+    <nav>
+      {% if current_user.is_authenticated %}
+        <span>Hi {{ current_user.username }} ({{ current_user.role }})</span>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+  <hr/>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat, msg in messages %}
+        <div class="card" style="background:#f9f9f9"><strong>{{ cat.title() }}:</strong> {{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+  <hr/>
+  <footer class="muted">Camel Care — Promote camel welfare, milk markets and conservation. Built as a demo app.</footer>
+</body>
+</html>
