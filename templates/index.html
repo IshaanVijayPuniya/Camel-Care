@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <form method="get" action="{{ url_for('index') }}">
+    <input type="text" name="q" placeholder="Search listings or services..." value="{{ query or '' }}">
+    <select name="cat">
+      <option value="">All categories</option>
+      <option value="milk" {% if cat=='milk' %}selected{% endif %}>Milk</option>
+      <option value="transport" {% if cat=='transport' %}selected{% endif %}>Transport</option>
+      <option value="vet" {% if cat=='vet' %}selected{% endif %}>Vet</option>
+      <option value="research" {% if cat=='research' %}selected{% endif %}>Research</option>
+    </select>
+    <button>Search</button>
+  </form>
+
+  <h2>Latest Listings</h2>
+  {% for l in listings %}
+    <div class="card">
+      <h3><a href="{{ url_for('view_listing', listing_id=l.id) }}">{{ l.title }}</a></h3>
+      <div class="muted">{{ l.category }} · {{ l.location or 'Location N/A' }} · by <a href="{{ url_for('view_user', username=l.owner.username) }}">{{ l.owner.username }}</a></div>
+      <p>{{ l.description[:250] }}{% if l.description|length > 250 %}...{% endif %}</p>
+    </div>
+  {% else %}
+    <p>No listings found.</p>
+  {% endfor %}
+
+  <h2>Upcoming Events</h2>
+  {% for e in events %}
+    <div class="card">
+      <strong>{{ e.title }}</strong>
+      <div class="muted">On {{ e.date.strftime('%Y-%m-%d') if e.date else 'TBD' }} · organized by {{ e.organizer.username }}</div>
+      <p>{{ e.description[:200] }}</p>
+    </div>
+  {% else %}
+    <p>No upcoming events.</p>
+  {% endfor %}
+{% endblock %}
